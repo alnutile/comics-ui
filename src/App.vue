@@ -1,19 +1,31 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <main class="page landing-page">
+      <section class="clean-block features">
+        <b-container fluid="sm">
+          <b-card
+            title="Search the different comic book databases"
+            sub-title="Marvel, DC (coming soon), Dark Horse (coming soon) etc"
+          >
+            <b-card-text>
+              <comics-search></comics-search>
+            </b-card-text>
+          </b-card>
+        </b-container>
+      </section>
+    </main>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import ComicsSearch from "./components/ComicsSearch.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    ComicsSearch,
+  },
+};
 </script>
 
 <style>
