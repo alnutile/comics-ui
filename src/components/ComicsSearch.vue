@@ -20,34 +20,52 @@
       >Please enter 3 or more letters to trigger the search</b-form-text
     >
     <spinner v-if="searching"></spinner>
-    <comic-list></comic-list>
+    <b-row align-h="center">
+      <p v-if="this.$store.state.search_results.results.length == 0">
+        Nothing found
+      </p>
+      <comic-card
+        v-else
+        :item="item"
+        v-for="item in this.$store.state.search_results.results"
+        :key="item.id"
+      ></comic-card>
+    </b-row>
   </section>
 </template>
 
 <script>
-import ComicList from "./ComicList.vue";
 import Spinner from "./Spinner.vue";
 import { mapMutations, mapState, mapGetters } from "vuex";
+import ComicCard from "./ComicCard.vue";
 export default {
   name: "ComicsSearch",
   components: {
-    ComicList,
     Spinner,
-  },
-  data() {
-    return {
-      searching: false,
-    };
+    ComicCard,
   },
   computed: {
     ...mapState(["search_term", "search_state"]),
-    ...mapGetters(["searchState"]),
+    ...mapGetters([
+      "searchState",
+      {
+        storeSearching: "searching",
+      },
+    ]),
+    searching: {
+      get() {
+        return this.storeSearching;
+      },
+      set(newState) {
+        return newState;
+      },
+    },
   },
   methods: {
-    ...mapMutations(["searchTerm"]),
+    ...mapMutations(["searchTerm", "searching"]),
     searchApi() {
       if (this.searchState) {
-        this.searching = true;
+        this.$store.commit("searching", true);
         this.$bvToast.toast(`Making query for ${this.search_term}`, {
           title: "Working on things...",
           autoHideDelay: 2000,
@@ -63,7 +81,7 @@ export default {
           })
           .then((response) => {
             this.$store.commit("searchResults", response.data.data);
-            this.searching = false;
+            this.$store.commit("searching", false);
             console.log(response.data.data);
           })
           .catch((error) => {
@@ -73,6 +91,7 @@ export default {
               variant: "warning",
               appendToast: true,
             });
+            this.$store.commit("searching", false);
             console.log(error);
           });
       }

@@ -8,10 +8,14 @@ export default new Vuex.Store({
     search_results: {
       results: []
     },
+    searching: false,
     search_term: null,
     search_state: false,
   },
   getters: {
+    searching: (state) => {
+      return state.searching;
+    },
     searchState: (state) =>  {
       return state.search_term != null && state.search_term.length > 3
         ? true
@@ -19,6 +23,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    searching(state, trueOrFalse) {
+      state.searching = trueOrFalse
+    },
     searchTerm(state, searchTerm) {
       console.log("searchTerm state", searchTerm)
       state.search_term = searchTerm

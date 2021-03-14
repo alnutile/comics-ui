@@ -1,14 +1,15 @@
 <template>
   <ul class="list-unstyled align-left">
-    {{
-      creator
-    }}
+    <li v-for="creator in creators" :key="creator.id">
+      {{ creator.name }}
+      {{ creator.role }}
+    </li>
   </ul>
 </template>
 
 <script>
 export default {
-  props: ["creator"],
+  props: ["creators"],
 };
 </script>
 
