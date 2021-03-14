@@ -10,6 +10,10 @@
             <b-card-text>
               <comics-search></comics-search>
             </b-card-text>
+
+            <b-card-text>
+              {{ JSON.stringify(this.$store.state.search_results, null, '\t')  }}
+            </b-card-text>
           </b-card>
         </b-container>
       </section>
@@ -23,7 +27,7 @@ import ComicsSearch from "./components/ComicsSearch.vue";
 export default {
   name: "App",
   components: {
-    ComicsSearch,
+    ComicsSearch
   },
 };
 </script>

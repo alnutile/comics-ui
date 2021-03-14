@@ -12,12 +12,17 @@
       </b-input-group-append>
     </b-input-group>
     <div class="mt-2">Value: {{ search }}</div>
+    <comic-list></comic-list>
   </div>
 </template>
 
 <script>
+import ComicList from './ComicList.vue';
 export default {
   name: "ComicsSearch",
+  components: {
+    ComicList
+  },
   data() {
     return {
       search: null,
@@ -27,10 +32,17 @@ export default {
     searchApi() {
       this.axios
         .get(
-          `http://gateway.marvel.com/v1/public/comics?apikey=${process.env.VUE_APP_MARVEL_PUBLIC}`
+          `http://gateway.marvel.com/v1/public/comics`,
+          {
+            params: {
+              titleStartsWith: this.search,
+              apikey: process.env.VUE_APP_MARVEL_PUBLIC
+            }
+          }
         )
-        .then((results) => {
-          console.log(results);
+        .then((response) => {
+          this.$store.commit('searchResults', response.data.data)
+          console.log(response.data.data);
         })
         .catch((error) => {
           console.log(error);
