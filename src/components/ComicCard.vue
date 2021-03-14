@@ -1,11 +1,11 @@
 <template>
   <b-card no-body style="width: 30rem;" class="m-1 overflow-hidden">
     <b-row no-gutters>
-      <b-col md="6">
-        <b-card-img :src="`${item.thumbnail.path}/standard_xlarge.jpg`" alt="Image" class="rounded-0"></b-card-img>
+      <b-col md="4">
+        <b-card-img :src="`${item.thumbnail.path}/portrait_uncanny.jpg`" alt="Image" class="rounded-0"></b-card-img>
       </b-col>
-      <b-col md="6">
-        <b-card-body :title="item.title">
+      <b-col md="8">
+        <b-card-body :title="item.title" text-left>
           <b-card-text>
             <creator-card :creators="item.creators.items"></creator-card>
           </b-card-text>

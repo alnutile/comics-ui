@@ -1,5 +1,5 @@
 <template>
-  <ul>
+  <ul class="list-unstyled align-left">
     <li v-for="creator in creators" :key="creator.id">
         {{ creator.name}}
         {{ creator.role }}

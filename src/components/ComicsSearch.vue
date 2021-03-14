@@ -11,7 +11,6 @@
         >
       </b-input-group-append>
     </b-input-group>
-    <div class="mt-2">Value: {{ search }}</div>
     <comic-list></comic-list>
   </div>
 </template>
