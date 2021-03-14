@@ -46,9 +46,15 @@ export default {
     Spinner,
     ComicCard,
   },
+  watch: {
+    creatorIds(newValue, oldValue) {
+      this.searchApi();
+    },
+  },
   computed: {
     ...mapState(["search_term", "search_state", "creators"]),
     ...mapGetters([
+      "creatorIds",
       "searchState",
       {
         storeSearching: "searching",
@@ -74,12 +80,19 @@ export default {
           variant: "success",
           appendToast: true,
         });
+
+        let params = {
+          titleStartsWith: this.search_term,
+          apikey: process.env.VUE_APP_MARVEL_PUBLIC,
+        };
+
+        if (this.creatorIds.length > 0) {
+          params["creators"] = this.creatorIds.join();
+        }
+
         this.axios
           .get(`http://gateway.marvel.com/v1/public/comics`, {
-            params: {
-              titleStartsWith: this.search_term,
-              apikey: process.env.VUE_APP_MARVEL_PUBLIC,
-            },
+            params: params,
           })
           .then((response) => {
             this.$store.commit("searchResults", response.data.data);

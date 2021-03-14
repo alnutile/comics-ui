@@ -14,6 +14,9 @@ export default new Vuex.Store({
     search_state: false,
   },
   getters: {
+    creatorIds: (state) => {
+      return Vue._.map(state.creators, 'id')
+    },
     creators: (state) => {
       return state.creators;
     },
