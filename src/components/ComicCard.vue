@@ -6,7 +6,7 @@
       </b-col>
       <b-col md="8">
         <b-card-body :title="item.title" text-left>
-          <b-card-text>
+          <b-card-text text-left>
             <creator-card :creators="item.creators.items"></creator-card>
           </b-card-text>
           <b-link :href="item.urls[0]['url']" target="_blank">visit site</b-link>

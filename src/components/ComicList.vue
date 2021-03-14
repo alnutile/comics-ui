@@ -1,15 +1,20 @@
 <template>
   <b-row align-h="center">
-      <comic-card
-      :item=item
+    <p v-if="this.$store.state.search_results.results.length == 0">
+      Nothing found
+    </p>
+    <comic-card
+      v-else
+      :item="item"
       v-for="item in this.$store.state.search_results.results"
-      :key="item.id">
-      </comic-card>
+      :key="item.id"
+    >
+    </comic-card>
   </b-row>
 </template>
 
 <script>
-import ComicCard from './ComicCard.vue';
+import ComicCard from "./ComicCard.vue";
 export default {
   components: { ComicCard },
 };
