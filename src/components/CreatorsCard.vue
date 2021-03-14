@@ -1,15 +1,25 @@
 <template>
   <ul class="list-unstyled align-left">
     <li v-for="creator in creators" :key="creator.id">
-      {{ creator.name }}
-      {{ creator.role }}
+      <button @click="addCreatorToFilter(creator)">
+        {{ creator.name }} {{ creator.role }}
+      </button>
     </li>
   </ul>
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   props: ["creators"],
+  methods: {
+    ...mapMutations(["creatorAdd"]),
+    addCreatorToFilter(creator) {
+      let resourceURI = creator["resourceURI"];
+      let creatorId = resourceURI.split("/").slice(-1).pop();
+      this.creatorAdd(creatorId);
+    },
+  },
 };
 </script>
 

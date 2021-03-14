@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    creators: [],
     search_results: {
       results: []
     },
@@ -13,6 +14,9 @@ export default new Vuex.Store({
     search_state: false,
   },
   getters: {
+    creators: (state) => {
+      return state.creators;
+    },
     searching: (state) => {
       return state.searching;
     },
@@ -23,6 +27,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    creatorAdd(state, creatorId) {
+      state.creators.push(creatorId)
+    },
     searching(state, trueOrFalse) {
       state.searching = trueOrFalse
     },

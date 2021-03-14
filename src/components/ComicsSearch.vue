@@ -19,6 +19,7 @@
     <b-form-text id="earch-form-help"
       >Please enter 3 or more letters to trigger the search</b-form-text
     >
+    {{ creators }}
     <spinner v-if="searching"></spinner>
     <b-row align-h="center">
       <p v-if="this.$store.state.search_results.results.length == 0">
@@ -30,6 +31,7 @@
         v-for="item in this.$store.state.search_results.results"
         :key="item.id"
       ></comic-card>
+      {{ this.$store.state.search_results.results }}
     </b-row>
   </section>
 </template>
@@ -45,7 +47,7 @@ export default {
     ComicCard,
   },
   computed: {
-    ...mapState(["search_term", "search_state"]),
+    ...mapState(["search_term", "search_state", "creators"]),
     ...mapGetters([
       "searchState",
       {
