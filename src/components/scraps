@@ -1,0 +1,14 @@
+
+      <b-form-input
+        debounce="500"
+        :state="searchState"
+        @input="searchTerm"
+        @update="searchApi"
+        id="search-form"
+        placeholder="Enter Part of Comic Name"
+      ></b-form-input>
+      <b-input-group-append>
+        <b-button size="sm" text="Button" variant="dark" @click="searchApi"
+          >Search</b-button
+        >
+      </b-input-group-append>

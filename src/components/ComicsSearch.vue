@@ -1,21 +1,37 @@
 <template>
   <section>
     <b-input-group size="lg" class="mb-3">
-      <b-form-input
-        debounce="500"
-        autofocus
-        :state="searchState"
-        @input="searchTerm"
-        @update="searchApi"
-        id="search-form"
-        placeholder="Enter Part of Comic Name"
-      ></b-form-input>
-      <b-input-group-append>
-        <b-button size="sm" text="Button" variant="dark" @click="searchApi"
-          >Search</b-button
-        >
-      </b-input-group-append>
+      <b-form-tags v-model="value" no-outer-focus class="mb-2">
+        <template v-slot="{ tags, inputAttrs, inputHandlers, tagVariant }">
+          <b-input-group class="mb-2">
+            <b-form-input
+              @input="tagChanged"
+              v-bind="inputAttrs"
+              autofocus
+              v-on="inputHandlers"
+              placeholder="Start by searching for comics by entering title"
+              class="form-control"
+            ></b-form-input>
+            <b-input-group-append>
+              <b-button @click="addTag()" variant="primary">Search</b-button>
+            </b-input-group-append>
+          </b-input-group>
+          <div class="d-inline-block" style="font-size: 1.5rem">
+            <b-form-tag
+              v-for="tag in tags"
+              @remove="removeTag(tag)"
+              :key="tag"
+              :title="tag"
+              :variant="tagVariant"
+              class="mr-1"
+              >{{ tag }}</b-form-tag
+            >
+          </div>
+        </template>
+      </b-form-tags>
     </b-input-group>
+    {{ value }}
+
     <b-form-text id="earch-form-help"
       >Please enter 3 or more letters to trigger the search</b-form-text
     >
@@ -46,14 +62,26 @@ export default {
     Spinner,
     ComicCard,
   },
+  data() {
+    return {
+      value: [],
+      queryArray: [],
+    };
+  },
   watch: {
+    search_term(newValue, oldValue) {
+      this.searchApi();
+    },
     creatorIds(newValue, oldValue) {
+      let creatorName = this.creatorFromId(newValue.slice(-1).pop());
+      this.value.push(creatorName.name);
       this.searchApi();
     },
   },
   computed: {
     ...mapState(["search_term", "search_state", "creators"]),
     ...mapGetters([
+      "creatorFromId",
       "creatorIds",
       "searchState",
       {
@@ -71,6 +99,15 @@ export default {
   },
   methods: {
     ...mapMutations(["searchTerm", "searching"]),
+    addTag(tag) {
+      console.log("tag to add", tag);
+    },
+    removeTag(tagToRemove) {
+      console.log("tag to remove", tagToRemove);
+    },
+    tagChanged(content) {
+      this.$store.commit("searchTerm", content);
+    },
     searchApi() {
       if (this.searchState) {
         this.$store.commit("searching", true);
